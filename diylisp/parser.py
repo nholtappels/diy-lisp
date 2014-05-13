@@ -14,6 +14,8 @@ def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
 
+    source = source.strip()
+
     if len(source) == 0:
         return ''
     else:

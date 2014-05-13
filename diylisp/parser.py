@@ -14,14 +14,19 @@ def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
 
-    if source.isdigit():
-        return int(source) # This assumes only positive integers as input
-    if source == '#t':
-        return True
-    elif source == '#f':
-        return False
+    if len(source) == 0:
+        return ''
     else:
-        return str(source)
+        if source[0] == '(':
+            return split_exps(source[1:-1])
+        if source.isdigit():
+            return int(source)
+        if source == '#t':
+            return True
+        elif source == '#f':
+            return False
+        else:
+            return str(source)
 
 ##
 ## Below are a few useful utility functions. These should come in handy when 

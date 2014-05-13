@@ -14,6 +14,8 @@ def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
 
+    if source.isdigit():
+        return int(source) # This assumes only positive integers as input
     if source == '#t':
         return True
     elif source == '#f':

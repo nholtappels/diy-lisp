@@ -18,6 +18,9 @@ def parse(source):
         return ''
     else:
         if source[0] == '(':
+            good_pos = (len(source) - 1)
+            if find_matching_paren(source) < good_pos:
+                raise LispError("Expected EOF: %s" % good_pos)
             list_of_exps = split_exps(source[1:-1])
             list_of_parsed_exps = []
             for exp in list_of_exps:

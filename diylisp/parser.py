@@ -14,7 +14,12 @@ def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
 
-    return str(source)
+    if source == '#t':
+        return True
+    elif source == '#f':
+        return False
+    else:
+        return str(source)
 
 ##
 ## Below are a few useful utility functions. These should come in handy when 

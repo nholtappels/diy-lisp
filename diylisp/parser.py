@@ -18,7 +18,11 @@ def parse(source):
         return ''
     else:
         if source[0] == '(':
-            return split_exps(source[1:-1])
+            list_of_exps = split_exps(source[1:-1])
+            list_of_parsed_exps = []
+            for exp in list_of_exps:
+                list_of_parsed_exps.append(parse(exp))
+            return list_of_parsed_exps
         if source.isdigit():
             return int(source)
         if source == '#t':

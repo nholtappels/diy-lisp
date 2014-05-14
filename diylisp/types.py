@@ -31,7 +31,9 @@ class Environment:
 			raise LispError("Variable not in the environment: %s" % symbol)
 
 	def extend(self, variables):
-		raise NotImplementedError("DIY")
+		new_vars = self.variables.copy()
+		new_vars.update(variables)
+		return Environment(new_vars)
 
 	def set(self, symbol, value):
 		raise NotImplementedError("DIY")

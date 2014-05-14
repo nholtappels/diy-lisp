@@ -23,3 +23,7 @@ def evaluate(ast, env):
     		return ast[1]
     	if ast[0] == 'atom': # evaluate atoms
     		return is_atom(evaluate(ast[1], env))
+    	if ast[0] == 'eq': # evaluating equality
+    		a1 = evaluate(ast[1], env)
+    		a2 = evaluate(ast[2], env)
+    		return is_atom(a1) and is_atom(a2) and a1 == a2

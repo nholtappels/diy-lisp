@@ -28,7 +28,7 @@ class Environment:
 		if symbol in self.variables:
 			return self.variables[symbol]
 		else:
-			raise LispError("Variable not in the environment: %s" % symbol)
+			raise LispError('Variable not in the environment: %s' % symbol)
 
 	def extend(self, variables):
 		new_vars = self.variables.copy()
@@ -36,4 +36,7 @@ class Environment:
 		return Environment(new_vars)
 
 	def set(self, symbol, value):
-		raise NotImplementedError("DIY")
+		if symbol in self.variables:
+			raise LispError('Variable already defined: %s' % symbol)
+		else:
+			self.variables[symbol] = value

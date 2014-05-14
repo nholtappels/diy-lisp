@@ -14,12 +14,13 @@ def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
 
-    source = source.strip()
+    source = re.sub(';.*', '', source) # remove comments
+    source = source.strip() # remove leading and trailing whitespace
 
     if len(source) == 0:
         return ''
     else:
-        if source[0] == '(':
+        if source[0] == '(': # parse parentheses
             good_pos = (len(source) - 1)
             if find_matching_paren(source) < good_pos:
                 raise LispError("Expected EOF: %s" % good_pos)
@@ -28,14 +29,14 @@ def parse(source):
             for exp in list_of_exps:
                 list_of_parsed_exps.append(parse(exp))
             return list_of_parsed_exps
-        if source.isdigit():
+        elif source.isdigit(): # parse integers
             return int(source)
-        if source == '#t':
+        elif source == '#t': # parse boolean True
             return True
-        elif source == '#f':
+        elif source == '#f': # parse boolean False
             return False
         else:
-            return str(source)
+            return str(source) # parse symbols
 
 ##
 ## Below are a few useful utility functions. These should come in handy when 

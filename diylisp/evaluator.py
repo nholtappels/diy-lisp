@@ -15,27 +15,32 @@ in a day, after all.)
 """
 
 def evaluate(ast, env):
-    """Evaluate an Abstract Syntax Tree in the specified environment."""
-    if is_boolean(ast) or is_integer(ast): # evaluate booleans and integers
-    	return ast
-    if is_list:
-    	if ast[0] == 'quote': # evaluate quotes
-    		return ast[1]
-    	elif ast[0] == 'atom': # evaluate atoms
-    		return is_atom(evaluate(ast[1], env))
-    	elif ast[0] == 'eq': # evaluate equality
-    		a1 = evaluate(ast[1], env)
-    		a2 = evaluate(ast[2], env)
-    		return is_atom(a1) and is_atom(a2) and a1 == a2
-    	# evaluate basic math operators
-    	# (!): built-in python operators used
-    	elif ast[0] in ['+', '-', '/', '*', 'mod', '>', '<', '=']:
-    		a1 = evaluate(ast[1], env)
-    		a2 = evaluate(ast[2], env)
-    		if is_integer(a1) and is_integer(a2):
-	    		if ast[0] == 'mod':
-	    			ast[0] = '%'
-	    		py_math = str(a1) + " " + ast[0] + " " + str(a2)
-	    		return eval(py_math)
-	    	else:
-	    		raise LispError("Math operator only works on integers!")
+	"""Evaluate an Abstract Syntax Tree in the specified environment."""
+	if is_boolean(ast) or is_integer(ast): # evaluate booleans and integers
+		return ast
+	if is_list:
+		if ast[0] == 'quote': # evaluate quotes
+			return ast[1]
+		elif ast[0] == 'atom': # evaluate atoms
+			return is_atom(evaluate(ast[1], env))
+		elif ast[0] == 'eq': # evaluate equality
+			a1 = evaluate(ast[1], env)
+			a2 = evaluate(ast[2], env)
+			return is_atom(a1) and is_atom(a2) and a1 == a2
+		# evaluate basic math operators
+		# (!): built-in python operators used
+		elif ast[0] in ['+', '-', '/', '*', 'mod', '>', '<', '=']:
+			a1 = evaluate(ast[1], env)
+			a2 = evaluate(ast[2], env)
+			if is_integer(a1) and is_integer(a2):
+				if ast[0] == 'mod':
+					ast[0] = '%'
+				py_math = str(a1) + " " + ast[0] + " " + str(a2)
+				return eval(py_math)
+			else:
+				raise LispError("Math operator only works on integers!")
+		elif ast[0] == 'if':
+			if evaluate(ast[1], env):
+				return evaluate(ast[2], env)
+			else:
+				return evaluate(ast[3], env)

@@ -16,4 +16,5 @@ in a day, after all.)
 
 def evaluate(ast, env):
     """Evaluate an Abstract Syntax Tree in the specified environment."""
-    raise NotImplementedError("DIY")
+    if is_boolean(ast) or is_integer(ast): # evaluate booleans and integers
+    	return ast

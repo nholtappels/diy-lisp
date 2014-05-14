@@ -31,6 +31,8 @@ def parse(source):
             return list_of_parsed_exps
         elif source.isdigit(): # parse integers
             return int(source)
+        elif source[0] == '\'': # parse quotes
+            return ['quote'] + [parse(source[1:])]
         elif source == '#t': # parse boolean True
             return True
         elif source == '#f': # parse boolean False

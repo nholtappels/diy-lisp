@@ -23,7 +23,15 @@ def evaluate(ast, env):
     		return ast[1]
     	if ast[0] == 'atom': # evaluate atoms
     		return is_atom(evaluate(ast[1], env))
-    	if ast[0] == 'eq': # evaluating equality
+    	if ast[0] == 'eq': # evaluate equality
     		a1 = evaluate(ast[1], env)
     		a2 = evaluate(ast[2], env)
     		return is_atom(a1) and is_atom(a2) and a1 == a2
+    	# evaluate basic math operators
+    	# (!): built-in python operators used
+    	if ast[0] in ['+', '-', '/', '*', 'mod', '>', '<', '=']:
+    		if ast[0] == 'mod':
+    			ast[0] = '%'
+    		py_math = str(ast[1]) + " " + ast[0] + " " + str(ast[2])
+    		print py_math
+    		return eval(py_math)

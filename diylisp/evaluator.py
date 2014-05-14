@@ -34,6 +34,8 @@ def evaluate(ast, env):
 			return eval_if(ast, env)
 		elif ast[0] == 'define': # evaluate define statement
 			eval_define(ast, env)
+		elif ast[0] == 'lambda':
+			return eval_lambda(ast, env)
 	elif is_symbol(ast): # evaluate symbols
 		return env.lookup(ast)
 
@@ -62,8 +64,14 @@ def eval_if(ast, env):
 def eval_define(ast, env):
 	"""Evaluate a define statement in the specified environment."""
 	if len(ast) != 3:
-		raise LispError('Wrong number of arguments: %s' % str((len(ast) - 2)))
+		raise LispError('Wrong number of arguments: %d' % (len(ast) - 2))
 	elif not is_symbol(ast[1]):
 		raise LispError('Illegal use of define with non-symbol as variable')
 	else:
 		env.set(ast[1], evaluate(ast[2], env))
+
+def eval_lambda(ast, env):
+	if len(ast) != 3:
+		raise LispError('Wrong number of arguments: %d' % (len(ast) - 2))
+	else:
+		return Closure(env, ast[1], ast[2])

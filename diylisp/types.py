@@ -13,8 +13,10 @@ class LispError(Exception):
 
 class Closure:
 	
-	def __init__(self, env, params, body):
-		raise NotImplementedError("DIY")
+	def __init__(self, env=None, params=[], body=''):
+		self.env = env if env else Environment()
+		self.params = params
+		self.body = body
 
 	def __str__(self):
 		return "<closure/%d>" % len(self.params)

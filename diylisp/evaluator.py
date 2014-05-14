@@ -27,20 +27,30 @@ def evaluate(ast, env):
 			a1 = evaluate(ast[1], env)
 			a2 = evaluate(ast[2], env)
 			return is_atom(a1) and is_atom(a2) and a1 == a2
-		# evaluate basic math operators
-		# (!): built-in python operators used
+		# evaluate basic math operators:
 		elif ast[0] in ['+', '-', '/', '*', 'mod', '>', '<', '=']:
-			a1 = evaluate(ast[1], env)
-			a2 = evaluate(ast[2], env)
-			if is_integer(a1) and is_integer(a2):
-				if ast[0] == 'mod':
-					ast[0] = '%'
-				py_math = str(a1) + " " + ast[0] + " " + str(a2)
-				return eval(py_math)
-			else:
-				raise LispError("Math operator only works on integers!")
+			return eval_math(ast, env)
 		elif ast[0] == 'if':
-			if evaluate(ast[1], env):
-				return evaluate(ast[2], env)
-			else:
-				return evaluate(ast[3], env)
+			return eval_if(ast, env)			
+
+def eval_math(ast, env):
+	"""Evaluate an mathematical operator and its
+	arguments in the specified environment.
+	Mathematical operations are carried out by the corresponding
+	mathematical operators built into python."""
+	a1 = evaluate(ast[1], env)
+	a2 = evaluate(ast[2], env)
+	if is_integer(a1) and is_integer(a2):
+		if ast[0] == 'mod':
+			ast[0] = '%'
+		py_math = str(a1) + " " + ast[0] + " " + str(a2)
+		return eval(py_math)
+	else:
+		raise LispError("Math operators only work on integers!")
+
+def eval_if(ast, env):
+	"""Evaluate an if expression in the specified environment."""
+	if evaluate(ast[1], env):
+		return evaluate(ast[2], env)
+	else:
+		return evaluate(ast[3], env)

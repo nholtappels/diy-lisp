@@ -30,9 +30,11 @@ def evaluate(ast, env):
 		# evaluate basic math operators:
 		elif ast[0] in ['+', '-', '/', '*', 'mod', '>', '<', '=']:
 			return eval_math(ast, env)
-		elif ast[0] == 'if':
+		elif ast[0] == 'if': # evaluate if expression
 			return eval_if(ast, env)
-	elif is_symbol(ast):
+		elif ast[0] == 'define': # evaluate define statement
+			eval_define(ast, env)
+	elif is_symbol(ast): # evaluate symbols
 		return env.lookup(ast)
 
 def eval_math(ast, env):
@@ -56,3 +58,12 @@ def eval_if(ast, env):
 		return evaluate(ast[2], env)
 	else:
 		return evaluate(ast[3], env)
+
+def eval_define(ast, env):
+	"""Evaluate a define statement in the specified environment."""
+	if len(ast) != 3:
+		raise LispError('Wrong number of arguments: %s' % str((len(ast) - 2)))
+	elif not is_symbol(ast[1]):
+		raise LispError('Illegal use of define with non-symbol as variable')
+	else:
+		env.set(ast[1], evaluate(ast[2], env))

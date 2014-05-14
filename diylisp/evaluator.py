@@ -18,7 +18,7 @@ def evaluate(ast, env):
 	"""Evaluate an Abstract Syntax Tree in the specified environment."""
 	if is_boolean(ast) or is_integer(ast): # evaluate booleans and integers
 		return ast
-	if is_list:
+	elif is_list(ast):
 		if ast[0] == 'quote': # evaluate quotes
 			return ast[1]
 		elif ast[0] == 'atom': # evaluate atoms
@@ -31,7 +31,9 @@ def evaluate(ast, env):
 		elif ast[0] in ['+', '-', '/', '*', 'mod', '>', '<', '=']:
 			return eval_math(ast, env)
 		elif ast[0] == 'if':
-			return eval_if(ast, env)			
+			return eval_if(ast, env)
+	elif is_symbol(ast):
+		return env.lookup(ast)
 
 def eval_math(ast, env):
 	"""Evaluate an mathematical operator and its

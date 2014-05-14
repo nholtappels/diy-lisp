@@ -19,5 +19,7 @@ def evaluate(ast, env):
     if is_boolean(ast) or is_integer(ast): # evaluate booleans and integers
     	return ast
     if is_list:
-    	if ast[0] == 'quote':
+    	if ast[0] == 'quote': # evaluate quotes
     		return ast[1]
+    	if ast[0] == 'atom': # evaluate atoms
+    		return is_atom(evaluate(ast[1], env))

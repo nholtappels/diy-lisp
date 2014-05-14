@@ -18,3 +18,6 @@ def evaluate(ast, env):
     """Evaluate an Abstract Syntax Tree in the specified environment."""
     if is_boolean(ast) or is_integer(ast): # evaluate booleans and integers
     	return ast
+    if is_list:
+    	if ast[0] == 'quote':
+    		return ast[1]

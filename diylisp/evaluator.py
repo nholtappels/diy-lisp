@@ -21,19 +21,21 @@ def evaluate(ast, env):
     if is_list:
     	if ast[0] == 'quote': # evaluate quotes
     		return ast[1]
-    	if ast[0] == 'atom': # evaluate atoms
+    	elif ast[0] == 'atom': # evaluate atoms
     		return is_atom(evaluate(ast[1], env))
-    	if ast[0] == 'eq': # evaluate equality
+    	elif ast[0] == 'eq': # evaluate equality
     		a1 = evaluate(ast[1], env)
     		a2 = evaluate(ast[2], env)
     		return is_atom(a1) and is_atom(a2) and a1 == a2
     	# evaluate basic math operators
     	# (!): built-in python operators used
-    	if ast[0] in ['+', '-', '/', '*', 'mod', '>', '<', '=']:
-    		if is_integer(ast[1]) and is_integer(ast[2]):
+    	elif ast[0] in ['+', '-', '/', '*', 'mod', '>', '<', '=']:
+    		a1 = evaluate(ast[1], env)
+    		a2 = evaluate(ast[2], env)
+    		if is_integer(a1) and is_integer(a2):
 	    		if ast[0] == 'mod':
 	    			ast[0] = '%'
-	    		py_math = str(ast[1]) + " " + ast[0] + " " + str(ast[2])
+	    		py_math = str(a1) + " " + ast[0] + " " + str(a2)
 	    		return eval(py_math)
 	    	else:
 	    		raise LispError("Math operator only works on integers!")

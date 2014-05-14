@@ -30,8 +30,10 @@ def evaluate(ast, env):
     	# evaluate basic math operators
     	# (!): built-in python operators used
     	if ast[0] in ['+', '-', '/', '*', 'mod', '>', '<', '=']:
-    		if ast[0] == 'mod':
-    			ast[0] = '%'
-    		py_math = str(ast[1]) + " " + ast[0] + " " + str(ast[2])
-    		print py_math
-    		return eval(py_math)
+    		if is_integer(ast[1]) and is_integer(ast[2]):
+	    		if ast[0] == 'mod':
+	    			ast[0] = '%'
+	    		py_math = str(ast[1]) + " " + ast[0] + " " + str(ast[2])
+	    		return eval(py_math)
+	    	else:
+	    		raise LispError("Math operator only works on integers!")

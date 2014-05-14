@@ -77,7 +77,7 @@ def test_basic_math_operators():
     assert_equals(False, evaluate([">", 2, 7], Environment()))
     assert_equals(False, evaluate([">", 7, 7], Environment()))
 
-def test_math_oprators_only_work_on_numbers():
+def test_math_operators_only_work_on_numbers():
     """The math functions should only allow numbers as arguments."""
 
     with assert_raises(LispError):

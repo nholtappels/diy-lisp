@@ -19,7 +19,9 @@ def evaluate(ast, env):
 	if is_boolean(ast) or is_integer(ast): # evaluate booleans and integers
 		return ast
 	elif is_list(ast):
-		if ast[0] == 'quote': # evaluate quotes
+		if is_closure(ast[0]):
+			return eval_closure(ast, env)
+		elif ast[0] == 'quote': # evaluate quotes
 			return ast[1]
 		elif ast[0] == 'atom': # evaluate atoms
 			return is_atom(evaluate(ast[1], env))
@@ -77,3 +79,6 @@ def eval_lambda(ast, env):
 		raise LispError('The parameters to lambda need to be a list!')
 	else:
 		return Closure(env, ast[1], ast[2])
+
+def eval_closure(ast, env):
+	return evaluate(ast[0].body, env)

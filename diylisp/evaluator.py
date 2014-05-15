@@ -81,4 +81,14 @@ def eval_lambda(ast, env):
 		return Closure(env, ast[1], ast[2])
 
 def eval_closure(ast, env):
-	return evaluate(ast[0].body, env)
+	closure = ast[0]
+	arguments = ast[1:]
+	parameters = closure.params
+	if len(arguments) != len(parameters):
+		raise LispError('Wrong number of arguments given!')
+	else:
+		for i in range(len(arguments)):
+			arg = evaluate(arguments[i], env)
+			param = parameters[i]
+			closure.env.set(param, arg)
+		return evaluate(closure.body, closure.env)

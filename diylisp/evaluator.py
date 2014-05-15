@@ -73,5 +73,7 @@ def eval_define(ast, env):
 def eval_lambda(ast, env):
 	if len(ast) != 3:
 		raise LispError('Wrong number of arguments: %d' % (len(ast) - 2))
+	elif not is_list(ast[1]):
+		raise LispError('The parameters to lambda need to be a list!')
 	else:
 		return Closure(env, ast[1], ast[2])

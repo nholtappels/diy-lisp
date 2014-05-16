@@ -50,7 +50,7 @@ def read_expression():
     exp = ""
     open_parens = 0
     while True:
-        line, parens = read_line("→  " if not exp.strip() else "…  ")
+        line, parens = read_line(">  " if not exp.strip() else "…  ")
         open_parens += parens
         exp += line
         if exp.strip() and open_parens <= 0:
@@ -84,7 +84,7 @@ def colored(text, color, attr=None):
     }
     format = '\033[%dm'
 
-    if os.getenv('ANSI_COLORS_DISABLED'):
+    if os.getenv('ANSI_COLORS_DISABLED') or sys.platform == 'win32':
         return text
 
     color = format % colors[color]

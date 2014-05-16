@@ -14,7 +14,7 @@ def parse(source):
 	"""Parse string representation of one *single* expression
 	into the corresponding Abstract Syntax Tree."""
 
-	source = re.sub(';.*', '', source) # remove comments
+	source = remove_comments(source) # remove comments
 	source = source.strip() # remove leading and trailing whitespace
 
 	if len(source) == 0:
@@ -48,7 +48,7 @@ def parse(source):
 
 def remove_comments(source):
 	"""Remove from a string anything in between a ; and a linebreak"""
-	return re.sub(r";.*\n", "\n", source)
+	return re.sub(';.*', '', source)
 
 def find_matching_paren(source, start=0):
 	"""Given a string and the index of an opening parenthesis, determines 

@@ -96,5 +96,5 @@ def eval_closure(ast, env):
 		for i in range(len(arguments)):
 			arg = evaluate(arguments[i], env)
 			param = parameters[i]
-			closure.env.set(param, arg)
+			closure.env = closure.env.extend({param: arg})
 		return evaluate(closure.body, closure.env)

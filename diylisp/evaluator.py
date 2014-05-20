@@ -54,10 +54,16 @@ def eval_math(ast, env):
 	a1 = evaluate(ast[1], env)
 	a2 = evaluate(ast[2], env)
 	if is_integer(a1) and is_integer(a2):
-		if ast[0] == 'mod':
-			ast[0] = '%'
-		py_math = str(a1) + " " + ast[0] + " " + str(a2)
-		return eval(py_math)
+		operators = {
+		'+': a1 + a2,
+		'-': a1 - a2,
+		'/': a1 / a2,
+		'*': a1 * a2,
+		'mod': a1 % a2,
+		'>': a1 > a2,
+		'<': a1 < a2,
+		'=': a1 == a2}
+		return operators[ast[0]]
 	else:
 		raise LispError("Math operators only work on integers!")
 

@@ -18,6 +18,8 @@ def evaluate(ast, env):
 	"""Evaluate an Abstract Syntax Tree in the specified environment."""
 	if is_boolean(ast) or is_integer(ast): # evaluate booleans and integers
 		return ast
+	elif is_symbol(ast): # evaluate symbols
+		return env.lookup(ast)
 	elif is_list(ast):
 		if is_closure(ast[0]):
 			return eval_closure(ast, env)
@@ -38,8 +40,6 @@ def evaluate(ast, env):
 			eval_define(ast, env)
 		elif ast[0] == 'lambda':
 			return eval_lambda(ast, env)
-	elif is_symbol(ast): # evaluate symbols
-		return env.lookup(ast)
 
 def eval_math(ast, env):
 	"""Evaluate an mathematical operator and its

@@ -40,7 +40,7 @@ def evaluate(ast, env):
 			eval_define(ast, env)
 		elif ast[0] == 'lambda':
 			return eval_lambda(ast, env)
-		elif is_symbol(ast[0]):
+		elif is_symbol(ast[0]) or is_list(ast[0]):
 			closure = evaluate(ast[0], env)
 			return evaluate([closure] + ast[1:], env)
 

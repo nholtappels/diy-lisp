@@ -43,6 +43,8 @@ def evaluate(ast, env):
 		elif is_symbol(ast[0]) or is_list(ast[0]):
 			closure = evaluate(ast[0], env)
 			return evaluate([closure] + ast[1:], env)
+		else:
+			raise LispError('Argument is not a function!')
 
 def eval_math(ast, env):
 	"""Evaluate an mathematical operator and its

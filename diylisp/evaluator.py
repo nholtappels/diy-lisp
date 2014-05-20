@@ -90,7 +90,8 @@ def eval_closure(ast, env):
 	arguments = ast[1:]
 	parameters = closure.params
 	if len(arguments) != len(parameters):
-		raise LispError('Wrong number of arguments given!')
+		raise LispError('Wrong number of arguments, expected %d got %d'
+			% (len(parameters), len(arguments)))
 	else:
 		for i in range(len(arguments)):
 			arg = evaluate(arguments[i], env)

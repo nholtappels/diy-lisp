@@ -40,6 +40,9 @@ def evaluate(ast, env):
 			eval_define(ast, env)
 		elif ast[0] == 'lambda':
 			return eval_lambda(ast, env)
+		elif is_symbol(ast[0]):
+			closure = evaluate(ast[0], env)
+			return evaluate([closure] + ast[1:], env)
 
 def eval_math(ast, env):
 	"""Evaluate an mathematical operator and its

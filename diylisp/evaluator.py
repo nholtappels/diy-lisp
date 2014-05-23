@@ -41,6 +41,8 @@ def evaluate(ast, env):
 			return eval_lambda(ast, env)
 		elif ast[0] == 'cons': # evaluate cons statement
 			return eval_cons(ast, env)
+		elif ast[0] == 'head': # evaluate head statement
+			return eval_head(ast, env)
 		elif is_symbol(ast[0]) or is_list(ast[0]): # evaluate closure from env
 			return eval_closure_env(ast, env)
 		else:
@@ -121,6 +123,7 @@ def eval_closure(ast, env):
 
 def eval_cons(ast, env):
 	"""Evaluate a cons statement in the specified environment.
+	Cons an element onto a list.
 	"""
 	if len(ast) != 3:
 		raise LispError("Wrong number of arguments to 'cons'")
@@ -135,3 +138,13 @@ def eval_closure_env(ast, env):
 	"""
 	closure = evaluate(ast[0], env)
 	return evaluate([closure] + ast[1:], env)
+
+def eval_head(ast, env):
+	"""Evaluate a head statement in the specified environment.
+	Extract the first element of a list.
+	"""
+	l = evaluate(ast[1], env)
+	if len(l) == 0:
+		raise LispError("Cannot get the head of an empty list!")
+	else:
+		return l[0]

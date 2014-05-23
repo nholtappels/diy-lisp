@@ -29,9 +29,7 @@ def evaluate(ast, env):
 		elif ast[0] == 'atom': # evaluate atoms
 			return is_atom(evaluate(ast[1], env))
 		elif ast[0] == 'eq': # evaluate equality
-			a1 = evaluate(ast[1], env)
-			a2 = evaluate(ast[2], env)
-			return is_atom(a1) and is_atom(a2) and a1 == a2
+			return eval_eq(ast, env)
 		# evaluate basic math operators:
 		elif ast[0] in ['+', '-', '/', '*', 'mod', '>', '<', '=']:
 			return eval_math(ast, env)
@@ -44,10 +42,16 @@ def evaluate(ast, env):
 		elif ast[0] == 'cons': # evaluate cons statement
 			return eval_cons(ast, env)
 		elif is_symbol(ast[0]) or is_list(ast[0]): # evaluate closure from env
-			closure = evaluate(ast[0], env)
-			return evaluate([closure] + ast[1:], env)
+			return eval_closure_env(ast, env)
 		else:
 			raise LispError('Argument is not a function!')
+
+def eval_eq(ast, env):
+	"""Evaluate an eq statement in the specified environment.
+	"""
+	a1 = evaluate(ast[1], env)
+	a2 = evaluate(ast[2], env)
+	return is_atom(a1) and is_atom(a2) and a1 == a2
 
 def eval_math(ast, env):
 	"""Evaluate an mathematical operator and its
@@ -125,3 +129,9 @@ def eval_cons(ast, env):
 		raise LispError("Cannot cons to a non-list!")
 	else:
 		return [evaluate(ast[1], env)] + s2
+
+def eval_closure_env(ast, env):
+	"""Evaluate to a closure from the env and evaluate it in the specified environment.
+	"""
+	closure = evaluate(ast[0], env)
+	return evaluate([closure] + ast[1:], env)

@@ -12,7 +12,8 @@ understand.
 
 def parse(source):
 	"""Parse string representation of one *single* expression
-	into the corresponding Abstract Syntax Tree."""
+	into the corresponding Abstract Syntax Tree.
+	"""
 
 	source = remove_comments(source) # remove comments
 	source = source.strip() # remove leading and trailing whitespace
@@ -39,12 +40,14 @@ def parse(source):
 ## 
 
 def remove_comments(source):
-	"""Remove from a string anything in between a ; and a linebreak"""
+	"""Remove from a string anything in between a ; and a linebreak.
+	"""
 	return re.sub(';.*', '', source)
 
 def find_matching_paren(source, start=0):
 	"""Given a string and the index of an opening parenthesis, determines 
-	the index of the matching closing paren."""
+	the index of the matching closing paren.
+	"""
 
 	assert source[start] == '('
 	pos = start
@@ -79,7 +82,8 @@ def split_exps(source):
 def first_expression(source):
 	"""Split string into (exp, rest) where exp is the 
 	first expression in the string and rest is the 
-	rest of the string after this expression."""
+	rest of the string after this expression.
+	"""
 	
 	source = source.strip()
 	if source[0] == "'":
@@ -119,7 +123,7 @@ def parse_paren(source):
 	"""
 	good_pos = (len(source) - 1)
 	if find_matching_paren(source) < good_pos:
-		raise LispError("Expected EOF: %s" % good_pos)
+		raise LispError('Expected EOF: %s' % good_pos)
 	list_of_exps = split_exps(source[1:-1])
 	list_of_parsed_exps = []
 	for exp in list_of_exps:
@@ -127,7 +131,8 @@ def parse_paren(source):
 	return list_of_parsed_exps
 
 def unparse(ast):
-	"""Turns an AST back into lisp program source"""
+	"""Turns an AST back into lisp program source.
+	"""
 
 	if is_boolean(ast):
 		return "#t" if ast else "#f"

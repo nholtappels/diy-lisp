@@ -8,7 +8,8 @@ The LispError class you can have for free :)
 """
 
 class LispError(Exception): 
-	"""General lisp error class."""
+	"""General lisp error class.
+	"""
 	pass
 
 class Closure:
@@ -30,7 +31,7 @@ class Environment:
 		if symbol in self.variables:
 			return self.variables[symbol]
 		else:
-			raise LispError('Variable not in the environment: %s' % symbol)
+			raise LispError("Variable not in the environment: %s" % symbol)
 
 	def extend(self, variables):
 		new_vars = self.variables.copy()
@@ -39,6 +40,6 @@ class Environment:
 
 	def set(self, symbol, value):
 		if symbol in self.variables:
-			raise LispError('Variable already defined: %s' % symbol)
+			raise LispError("Variable already defined: %s" % symbol)
 		else:
 			self.variables[symbol] = value

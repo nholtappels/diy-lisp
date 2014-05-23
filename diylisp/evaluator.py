@@ -4,6 +4,7 @@ from types import Environment, LispError, Closure
 from ast import is_boolean, is_atom, is_symbol, is_list, is_closure, is_integer
 from asserts import assert_exp_length, assert_valid_definition, assert_boolean
 from parser import unparse
+from operator import add, sub, floordiv, mul, mod as opmod, gt, lt, eq as opeq
 
 """
 This is the Evaluator module. The `evaluate` function below is the heart
@@ -69,15 +70,15 @@ def eval_math(ast, env):
 	a2 = evaluate(ast[2], env)
 	if is_integer(a1) and is_integer(a2):
 		operators = {
-		'+': a1 + a2,
-		'-': a1 - a2,
-		'/': a1 / a2,
-		'*': a1 * a2,
-		'mod': a1 % a2,
-		'>': a1 > a2,
-		'<': a1 < a2,
-		'=': a1 == a2}
-		return operators[ast[0]]
+		'+': add,
+		'-': sub,
+		'/': floordiv,
+		'*': mul,
+		'mod': opmod,
+		'>': gt,
+		'<': lt,
+		'=': opeq}
+		return operators[ast[0]](a1, a2)
 	else:
 		raise LispError("Math operators only work on integers!")
 

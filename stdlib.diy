@@ -38,3 +38,10 @@
 	(lambda (l1 l2)
 		(if (empty l1) l2
 			(cons (head l1) (append (tail l1) l2)))))
+
+(define filter
+	(lambda (fn l)
+		(if (empty l) l
+			(if (fn (head l))
+				(cons (head l) (filter fn (tail l)))
+				(filter fn (tail l))))))

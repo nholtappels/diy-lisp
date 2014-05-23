@@ -1,8 +1,31 @@
 ;; Some logical operators.
 
 (define not
-    (lambda (b)
-        (if b #f #t)))
+	(lambda (b)
+		(if b #f #t)))
 
-;; DIY -- Implement the rest of your standard library
-;; here as part 7 of the workshop.
+(define or
+	(lambda (b1 b2)
+		(if b1 #t (if b2 #t #f))))
+
+(define and
+	(lambda (b1 b2)
+		(if b1 (if b2 #t #f) #f)))
+
+(define xor
+	(lambda (b1 b2)
+		(if (and (not (and b1 b2)) (or b1 b2)) #t #f)))
+
+(define >=
+	(lambda (i1 i2)
+		(if (not (< i1 i2)) #t #f)))
+
+(define <=
+	(lambda (i1 i2)
+		(if (not (> i1 i2)) #t #f)))
+
+(define sum
+	(lambda (l)
+		(if (empty l) 0
+			(+ (head l) (sum (tail l))))))
+

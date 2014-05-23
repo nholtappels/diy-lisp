@@ -21,8 +21,8 @@ def evaluate(ast, env):
 		return ast
 	elif is_symbol(ast): # evaluate symbols
 		return env.lookup(ast)
-	elif is_list(ast):
-		if is_closure(ast[0]):
+	elif is_list(ast): # evaluate lists
+		if is_closure(ast[0]): # evaluate closure
 			return eval_closure(ast, env)
 		elif ast[0] == 'quote': # evaluate quotes
 			return ast[1]
@@ -39,11 +39,11 @@ def evaluate(ast, env):
 			return eval_if(ast, env)
 		elif ast[0] == 'define': # evaluate define statement
 			eval_define(ast, env)
-		elif ast[0] == 'lambda':
+		elif ast[0] == 'lambda': # evaluate lambda statement
 			return eval_lambda(ast, env)
-		elif ast[0] == 'cons':
+		elif ast[0] == 'cons': # evaluate cons statement
 			return eval_cons(ast, env)
-		elif is_symbol(ast[0]) or is_list(ast[0]):
+		elif is_symbol(ast[0]) or is_list(ast[0]): # evaluate closure from env
 			closure = evaluate(ast[0], env)
 			return evaluate([closure] + ast[1:], env)
 		else:

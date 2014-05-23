@@ -33,3 +33,8 @@
 	(lambda (l)
 		(if (empty l) 0
 			(+ 1 (length (tail l))))))
+
+(define append
+	(lambda (l1 l2)
+		(if (empty l1) l2
+			(cons (head l1) (append (tail l1) l2)))))

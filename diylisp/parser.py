@@ -19,26 +19,25 @@ def parse(source):
 
 	if len(source) == 0:
 		return ''
+	elif source[0] == '(': # parse parentheses
+		good_pos = (len(source) - 1)
+		if find_matching_paren(source) < good_pos:
+			raise LispError("Expected EOF: %s" % good_pos)
+		list_of_exps = split_exps(source[1:-1])
+		list_of_parsed_exps = []
+		for exp in list_of_exps:
+			list_of_parsed_exps.append(parse(exp))
+		return list_of_parsed_exps
+	elif source.isdigit(): # parse integers
+		return int(source)
+	elif source[0] == '\'': # parse quotes
+		return ['quote'] + [parse(source[1:])]
+	elif source == '#t': # parse boolean True
+		return True
+	elif source == '#f': # parse boolean False
+		return False
 	else:
-		if source[0] == '(': # parse parentheses
-			good_pos = (len(source) - 1)
-			if find_matching_paren(source) < good_pos:
-				raise LispError("Expected EOF: %s" % good_pos)
-			list_of_exps = split_exps(source[1:-1])
-			list_of_parsed_exps = []
-			for exp in list_of_exps:
-				list_of_parsed_exps.append(parse(exp))
-			return list_of_parsed_exps
-		elif source.isdigit(): # parse integers
-			return int(source)
-		elif source[0] == '\'': # parse quotes
-			return ['quote'] + [parse(source[1:])]
-		elif source == '#t': # parse boolean True
-			return True
-		elif source == '#f': # parse boolean False
-			return False
-		else:
-			return str(source) # parse symbols
+		return str(source) # parse symbols
 
 ##
 ## Below are a few useful utility functions. These should come in handy when 

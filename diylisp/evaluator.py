@@ -45,6 +45,8 @@ def evaluate(ast, env):
 			return eval_head(ast, env)
 		elif ast[0] == 'tail': # evaluate tail statement
 			return eval_tail(ast, env)
+		elif ast[0] == 'empty': # evaluate empty statement
+			return eval_empty(ast, env)
 		elif is_symbol(ast[0]) or is_list(ast[0]): # evaluate closure from env
 			return eval_closure_env(ast, env)
 		else:
@@ -80,7 +82,7 @@ def eval_math(ast, env):
 		raise LispError("Math operators only work on integers!")
 
 def eval_if(ast, env):
-	"""Evaluate an if expression in the specified environment.
+	"""Evaluate an 'if' expression in the specified environment.
 	"""
 	if evaluate(ast[1], env):
 		return evaluate(ast[2], env)
@@ -88,7 +90,7 @@ def eval_if(ast, env):
 		return evaluate(ast[3], env)
 
 def eval_define(ast, env):
-	"""Evaluate a define statement in the specified environment.
+	"""Evaluate a 'define' statement in the specified environment.
 	"""
 	if len(ast) != 3:
 		raise LispError("Wrong number of arguments: %d" % (len(ast) - 2))
@@ -98,7 +100,7 @@ def eval_define(ast, env):
 		env.set(ast[1], evaluate(ast[2], env))
 
 def eval_lambda(ast, env):
-	"""Evaluate a lambda statement in the specified environment.
+	"""Evaluate a 'lambda' statement in the specified environment.
 	"""
 	if len(ast) != 3:
 		raise LispError("Wrong number of arguments: %d" % (len(ast) - 2))
@@ -124,7 +126,7 @@ def eval_closure(ast, env):
 		return evaluate(closure.body, closure.env)
 
 def eval_cons(ast, env):
-	"""Evaluate a cons statement in the specified environment.
+	"""Evaluate a 'cons' statement in the specified environment.
 	Cons an element onto a list.
 	"""
 	if len(ast) != 3:
@@ -142,7 +144,7 @@ def eval_closure_env(ast, env):
 	return evaluate([closure] + ast[1:], env)
 
 def eval_head(ast, env):
-	"""Evaluate a head statement in the specified environment.
+	"""Evaluate a 'head' statement in the specified environment.
 	Extract the first element of a list.
 	"""
 	l = evaluate(ast[1], env)
@@ -152,7 +154,7 @@ def eval_head(ast, env):
 		return l[0]
 
 def eval_tail(ast, env):
-	"""Evaluate a tail statement in the specified environment.
+	"""Evaluate a 'tail' statement in the specified environment.
 	Extract all but the first element of a list.
 	"""
 	l = evaluate(ast[1], env)
@@ -160,3 +162,8 @@ def eval_tail(ast, env):
 		raise LispError("Cannot get the tail of an empty list!")
 	else:
 		return l[1:]
+
+def eval_empty(ast, env):
+	"""Evaluate an 'empty' statement in the specified environment.
+	"""
+	return len(evaluate(ast[1], env)) == 0

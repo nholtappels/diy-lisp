@@ -29,3 +29,7 @@
 		(if (empty l) 0
 			(+ (head l) (sum (tail l))))))
 
+(define length
+	(lambda (l)
+		(if (empty l) 0
+			(+ 1 (length (tail l))))))

@@ -20,14 +20,7 @@ def parse(source):
 	if len(source) == 0:
 		raise LispError("Cannot parse empty source!")
 	elif source[0] == '(': # parse parentheses
-		good_pos = (len(source) - 1)
-		if find_matching_paren(source) < good_pos:
-			raise LispError("Expected EOF: %s" % good_pos)
-		list_of_exps = split_exps(source[1:-1])
-		list_of_parsed_exps = []
-		for exp in list_of_exps:
-			list_of_parsed_exps.append(parse(exp))
-		return list_of_parsed_exps
+		return parse_paren(source)
 	elif source.isdigit(): # parse integers
 		return int(source)
 	elif source[0] == '\'': # parse quotes
@@ -118,6 +111,20 @@ def parse_multiple(source):
 
 	source = remove_comments(source)
 	return [parse(exp) for exp in split_exps(source)]
+
+def parse_paren(source):
+	"""Parses parentheses.
+	Raises errors for incorrect parentheses. Returns a list of the parsed
+	elements of the source.
+	"""
+	good_pos = (len(source) - 1)
+	if find_matching_paren(source) < good_pos:
+		raise LispError("Expected EOF: %s" % good_pos)
+	list_of_exps = split_exps(source[1:-1])
+	list_of_parsed_exps = []
+	for exp in list_of_exps:
+		list_of_parsed_exps.append(parse(exp))
+	return list_of_parsed_exps
 
 def unparse(ast):
 	"""Turns an AST back into lisp program source"""

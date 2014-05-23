@@ -43,6 +43,8 @@ def evaluate(ast, env):
 			return eval_cons(ast, env)
 		elif ast[0] == 'head': # evaluate head statement
 			return eval_head(ast, env)
+		elif ast[0] == 'tail': # evaluate tail statement
+			return eval_tail(ast, env)
 		elif is_symbol(ast[0]) or is_list(ast[0]): # evaluate closure from env
 			return eval_closure_env(ast, env)
 		else:
@@ -148,3 +150,13 @@ def eval_head(ast, env):
 		raise LispError("Cannot get the head of an empty list!")
 	else:
 		return l[0]
+
+def eval_tail(ast, env):
+	"""Evaluate a tail statement in the specified environment.
+	Extract all but the first element of a list.
+	"""
+	l = evaluate(ast[1], env)
+	if len(l) == 0:
+		raise LispError("Cannot get the tail of an empty list!")
+	else:
+		return l[1:]

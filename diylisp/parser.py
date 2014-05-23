@@ -18,7 +18,7 @@ def parse(source):
 	source = source.strip() # remove leading and trailing whitespace
 
 	if len(source) == 0:
-		return ''
+		raise LispError("Cannot parse empty source!")
 	elif source[0] == '(': # parse parentheses
 		good_pos = (len(source) - 1)
 		if find_matching_paren(source) < good_pos:
